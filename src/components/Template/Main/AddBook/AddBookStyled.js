@@ -1,11 +1,6 @@
-import { faBookOpen } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import WarningModal from '../WarningModal';
 
-const AddBookStyled = styled.div`
+export const AddBookStyled = styled.div`
   width: 100%;
   height: calc(100vh - 60px);
   display: flex;
@@ -85,7 +80,13 @@ const AddBookStyled = styled.div`
           display: flex;
           flex-direction: column;
           gap: 6px;
+          height: 80px;
         }
+
+        .errorText{
+            color: darkred;
+            font-size: 12px;
+          }
       }
       
       h1{
@@ -176,84 +177,3 @@ const AddBookStyled = styled.div`
       }
   }
 `;
-
-export default function AddBook() {
-  const isDarkMode = useSelector((state) => state.isDarkMode);
-
-  const dispatch = useDispatch();
-
-  const [author, setAuthor] = useState('');
-  const [book, setBook] = useState('');
-  const [date, setDate] = useState('');
-
-  // book add function
-  const handleAdd = () => {
-    if(!author || !book || !date){
-      dispatch({type: 'OPEN_MODAL', payload: 'Please fill in all fields!'}); // show modal if any field is empty
-      return;
-    };
-    
-    const newBookData = {author, book, date};
-    const existingBooks = JSON.parse(localStorage.getItem('bookData'));
-
-    const booksArray = Array.isArray(existingBooks) ? existingBooks : [];
-
-    // add new book
-    booksArray.push(newBookData);
-    
-    // save new lists
-    localStorage.setItem('bookData', JSON.stringify(booksArray));
-    
-    // clear inputs
-    setAuthor('');
-    setBook('');
-    setDate('');
-
-    dispatch({type: 'OPEN_MODAL', payload: 'Successfully add!'}); // show modal if any field is empty
-  }
-
-  return (
-    <AddBookStyled isDarkMode={isDarkMode}>
-      <div data-aos="fade-up" className='fadeLoginDiv'>
-        {/* book img design */}
-        <div className="circle circle1"/>
-
-        {/* login div */}
-        <div className='loginDiv'>
-            <div className="form shadow">
-              {/* title */}
-              <div className='titleDiv'>
-                <h1 className='m-0'>Add Book</h1>
-                <FontAwesomeIcon icon={faBookOpen} className='bookIcon'/>
-              </div>
-
-              <div className='formDiv'>
-                <div>
-                  <label>Author name:</label>
-                  <input type="text" className="Name" placeholder='Enter author name' value={author} onChange={(e) => setAuthor(e.target.value)} />
-                </div>
-
-                <div>
-                  <label>Book name:</label>
-                  <input type="text" className="surname" placeholder='Enter book name' value={book} onChange={(e) => setBook(e.target.value)}/>
-                </div>
-
-                <div>
-                  <label>Date of issue:</label>
-                  <input type="number" className="phone" placeholder='Enter date' value={date} onChange={(e) => setDate(e.target.value)}/>
-                </div>
-
-                <button className="btn addBtn" onClick={handleAdd}>Add book</button>
-              </div>
-            </div>
-        </div>
-
-        {/* book img design */}
-        <div className="circle circle2"></div>
-
-        {/* modal */}
-        <WarningModal/>
-      </div>
-    </AddBookStyled>
-  )
-}

@@ -1,10 +1,6 @@
-import React, { useContext } from 'react'
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { useSelector } from 'react-redux';
-import { registeredContext } from '../../App';
 
-const WelcomeStyled = styled.div`
+export const WelcomeStyled = styled.div`
     min-height: 100vh;
     width: 100%;
     overflow: hidden;
@@ -27,6 +23,10 @@ const WelcomeStyled = styled.div`
         padding: 0 20px;
     }
 
+    .welcomeTexts{
+        position: absolute;
+        z-index: 100;
+    }
 
     .circle{
         position: absolute !important;
@@ -96,31 +96,3 @@ const WelcomeStyled = styled.div`
         color: white;
     }
 `;
-
-export default function Welcome() {
-  const isDarkMode = useSelector((state) => state.isDarkMode);
-
-  const {isLogin} = useContext(registeredContext);
-
-  return (
-    <WelcomeStyled isDarkMode={isDarkMode}>
-        <div className="circle circle1"></div>
-
-        <div data-aos="fade-up">
-            <h1>Welcome to <span className='brandName'>BookNest</span></h1>
-            <p>
-                Add your favorite books and enter information such as their authors, genres, and year of publication. 
-                Easily find a specific book through search and filter functions and add new books or delete books you want. 
-                Make it a part of your library and keep it organized by entering complete information about each book. 
-                Create a comfortable and organized book list with our library and don't forget your favorite works!
-            </p>
-
-            <Link to={'/login'}>
-                <button className='btn loginBtn'>{isLogin ? 'Login' : 'Sign up'}</button>
-            </Link>
-        </div>
-
-        <div className="circle circle2"></div>
-    </WelcomeStyled>
-  )
-}
