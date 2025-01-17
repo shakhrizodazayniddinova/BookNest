@@ -52,13 +52,13 @@ function App() {
               <Route path="/dashboard" element={<Template />} data-aos="fade-up">
                 {/* add book component */}
                 <Route path="add-book" element={<AddBook />} />
-                <Route index element={<AddBook />} />
 
                 {/* my library components */}
                 <Route path="my-library" element={<MyLibrary />} />
 
                 {/* user components */}
                 <Route path="user" element={<User />} />
+                <Route index element={<User />} />
               </Route>
             ) : (
               <Route path="*" element={<NotRegister />} />
